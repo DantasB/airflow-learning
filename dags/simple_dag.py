@@ -13,17 +13,17 @@ doc_md = """
     The DAG is configured with retry_delay of 3 minutes.
 """
 @dag(
-    schedule_interval="@hourly",
-    start_date=datetime(2021, 1, 1),
-    catchup=False,
-    doc_md=doc_md,
+    schedule_interval="@hourly", # This defines how often your DAG will run, or the schedule by which your DAG runs. In this case, this DAG will run hourly
+    start_date=datetime(2021, 1, 1), # This DAG will run for the first time on January 1, 2021. Best practice is to use a static start_date. Subsequent DAG runs are instantiated based on scheduler_interval
+    catchup=False, # This DAG will only run for the latest schedule_interval.
+    doc_md=doc_md, # This is the documentation for your DAG. It will be displayed in the Airflow UI
     default_args={
-        "owner": "BDantas",
-        "retries": 0,
-        "retry_delay": timedelta(minutes=3),
+        "owner": "BDantas", # The owner of the DAG is BDantas
+        "retries": 0, # If a task fails, it will retry 0 times.
+        "retry_delay": timedelta(minutes=3), # If a task fails, it will retry every 3 minutes.
     },
-    tags=['example', 'ETL'],
-    max_active_runs=1
+    tags=['example', 'ETL'], # If set, this tag is shown in the DAG view of the Airflow UI
+    max_active_runs=1 # This limits the number of DAG runs to 1.
 )
 
 def simple_dag():
@@ -40,7 +40,7 @@ def simple_dag():
         order_data_dict = json.loads(data_string)
         return order_data_dict
         
-    @task(task_id="transform_data", retries=3)
+    @task(task_id="transform_data", retries=3) # This decorator tells Airflow that this task is ran using the PythonOperator
     def transform(order_data_dict: dict):
         """
         #### Transform task
@@ -51,7 +51,7 @@ def simple_dag():
             transformed_data[order_id] = order_value * 1.1
         return transformed_data
     
-    @task(task_id="load_data", retries=3)
+    @task(task_id="load_data", retries=3) # This decorator tells Airflow that this task is ran using the PythonOperator
     def load(transformed_data: dict):
         """
         #### Load task
