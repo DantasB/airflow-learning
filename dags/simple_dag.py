@@ -22,7 +22,8 @@ doc_md = """
         "retries": 0,
         "retry_delay": timedelta(minutes=3),
     },
-    tags=['example', 'ETL']
+    tags=['example', 'ETL'],
+    max_active_runs=1
 )
 
 def simple_dag():
