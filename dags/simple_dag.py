@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import json
 from airflow.decorators import dag, task
+from airflow.sensors.filesystem import FileSensor
 
 doc_md = """
 # DAG Example
@@ -37,7 +38,7 @@ DEFAULT_TASK_PARAMETERS = {
     max_active_runs=1,  # This limits the number of DAG runs to 1.
 )
 def simple_dag():
-    @task(
+    @task.python(
         task_id="extract_data", retries=3
     )  # This decorator tells Airflow that this task is ran using the PythonOperator
     def extract():
@@ -52,7 +53,7 @@ def simple_dag():
         order_data_dict = json.loads(data_string)
         return order_data_dict
 
-    @task(
+    @task.python(
         task_id="transform_data", retries=3
     )  # This decorator tells Airflow that this task is ran using the PythonOperator
     def transform(order_data_dict: dict):
@@ -65,7 +66,7 @@ def simple_dag():
             transformed_data[order_id] = order_value * 1.1
         return transformed_data
 
-    @task(
+    @task.python(
         task_id="load_data", retries=3
     )  # This decorator tells Airflow that this task is ran using the PythonOperator
     def load(transformed_data: dict):
@@ -74,12 +75,19 @@ def simple_dag():
         A simple "load" task which takes in the collection of transformed data and
         loads it into a database.
         """
-        print(transformed_data)
-        return transformed_data
+        with open("/tmp/transformed_data.json", "w") as f:
+            json.dump(transformed_data, f)
+
+    waiting_for_load = FileSensor(
+        task_id="waiting_for_load",
+        fs_conn_id="fs_default",
+        filepath="transformed_data.json",
+    )
 
     order_data = extract()
     order_summary = transform(order_data)
     load(order_summary)
+    waiting_for_load
 
 
 dag = simple_dag()
