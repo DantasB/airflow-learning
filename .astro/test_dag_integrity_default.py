@@ -23,6 +23,8 @@ BaseHook.get_connection = basehook_get_connection_monkeypatch
 # # =========== /MONKEYPATCH BASEHOOK.GET_CONNECTION() ===========
 
 # =========== MONKEYPATCH OS.GETENV() ===========
+
+
 def os_getenv_monkeypatch(key: str, *args, default=None, **kwargs):
     print(
         f"Attempted to fetch os environment variable during parse, returning a mocked value for {key}"
