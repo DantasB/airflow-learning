@@ -1,8 +1,12 @@
-"""Test the validity of all DAGs. This test ensures that all Dags have tags, retries set to two, and no import errors. Feel free to add and remove tests."""
+"""Test the validity of all DAGs.
+This test ensures that all Dags have tags, retries set to two, and no import errors.
+Feel free to add and remove tests.
+"""
 
 import os
 import logging
 from contextlib import contextmanager
+from typing import Any, Dict
 import pytest
 from airflow.models import DagBag
 
@@ -56,7 +60,7 @@ def test_file_imports(rel_path, rv):
         raise Exception(f"{rel_path} failed to import with message \n {rv}")
 
 
-APPROVED_TAGS = {}
+APPROVED_TAGS: Dict[Any, Any] = {}
 
 
 @pytest.mark.parametrize(
