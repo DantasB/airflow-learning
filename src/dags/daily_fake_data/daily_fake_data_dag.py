@@ -11,6 +11,7 @@ from daily_fake_data.tasks.data_ingestion import (
     save_users_data_as_json,
 )
 
+
 @dag(
     dag_id="daily-fake-data",
     default_args={"owner": "BDantas"},
@@ -22,14 +23,14 @@ from daily_fake_data.tasks.data_ingestion import (
 )
 def daily_fake_data_dag():
     """
-        # Daily Fake Data
-        This DAG will get fake users and save them as a csv file.
+    # Daily Fake Data
+    This DAG will get fake users and save them as a csv file.
 
-        ## DAG Task
-        The DAG have the following tasks:
+    ## DAG Task
+    The DAG have the following tasks:
 
-        - get_users: Get users from randomuser.me API
-        - save_users_data_as_csv: Save users data as csv
+    - get_users: Get users from randomuser.me API
+    - save_users_data_as_csv: Save users data as csv
     """
 
     users = get_users()

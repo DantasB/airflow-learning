@@ -22,7 +22,7 @@ def get_env_variable(variable_name):
     variable_key = environ.get(variable_name)
     if not variable_key:
         logger.error(f"Variable {variable_name} not found")
-        raise Exception(f"{variable_name} is not set")
+        raise RuntimeError(f"{variable_name} is not set")
 
     logger.info(f"Got value for {variable_name}")
 
