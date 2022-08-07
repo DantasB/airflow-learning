@@ -2,8 +2,8 @@ import json
 from typing import Any, Dict
 import requests
 from airflow.decorators import task
-from include.utils.env_utils import get_env_variable
-from include.utils.logger_utils import get_logger_with_date_output
+from airflow_learning.include.utils.env_utils import get_env_variable
+from airflow_learning.include.utils.logger_utils import get_logger_with_date_output
 
 logger = get_logger_with_date_output("data_ingestion")
 

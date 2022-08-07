@@ -3,3 +3,5 @@
 airflow_settings.yaml
 astro
 __pycache__/
+.mypy_cache/
+.pytest_cache/
