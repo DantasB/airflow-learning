@@ -1,3 +1,4 @@
+from os import path
 import json
 from typing import Any, Dict
 import requests
@@ -41,7 +42,9 @@ def save_users_data_as_json(users: Dict[Any, Any]) -> None:
     """
     logger.info("Saving users data as json...")
 
-    with open("users.json", "w", encoding="utf-8") as file:
-        json.dump(users, file)
+    save_path = path.join(get_env_variable("USERS_PATH"), 'archive.json')
+
+    with open(save_path, mode="w+", encoding="utf-8") as output:
+        json.dump(users, output, indent=4)
 
     logger.info("Saved users data as json!")
