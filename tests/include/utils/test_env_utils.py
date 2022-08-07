@@ -1,7 +1,7 @@
 import os
 import logging
 import pytest
-from airflow_learning.include.utils.env_utils import get_env_variable
+from include.utils.env_utils import get_env_variable
 
 LOGGER = logging.getLogger(__name__)
 

@@ -1,6 +1,6 @@
 from os import environ
 
-from airflow_learning.include.utils.logger_utils import get_logger_with_date_output
+from include.utils.logger_utils import get_logger_with_date_output
 
 logger = get_logger_with_date_output("env_utils")
 
