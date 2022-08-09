@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
 from airflow.models.baseoperator import (
     chain,
@@ -11,9 +12,7 @@ from daily_fake_data.tasks.data_ingestion import (
     save_users_data_as_json,
 )
 
-from daily_fake_data.tasks.xcom_cleaner import (
-    cleanup_xcoms
-)
+from daily_fake_data.tasks.xcom_cleaner import cleanup_xcoms
 
 
 @dag(
@@ -33,9 +32,9 @@ def daily_fake_data_dag():
     ## DAG Task
     The DAG have the following tasks:
 
-    - get_users: Get users from randomuser.me API
-    - save_users_data_as_csv: Save users data as csv
-    - cleanup_xcoms: Deletes every xcom created by this dag
+    - get_users: Get users from randomuser.me API;
+    - save_users_data_as_csv: Save users data as csv;
+    - cleanup_xcoms: Deletes every xcom created by this dag.
     """
 
     users = get_users()
@@ -45,7 +44,7 @@ def daily_fake_data_dag():
         Label("Save Data as JSON"),
         save_users_data_as_json(users),
         Label("Cleanup Every XCOM"),
-        cleanup_xcoms('{{dag.dag_id}}'),
+        cleanup_xcoms("{{dag.dag_id}}"),
     )
 
 
