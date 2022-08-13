@@ -12,6 +12,10 @@ from daily_pokemon_data.tasks.data_ingestion import (
     save_pokemons_data_as_json,
 )
 
+from daily_pokemon_data.tasks.data_quality import (
+    data_quality,
+)
+
 from dags.general_tasks.xcom_cleaner import cleanup_xcoms
 
 
@@ -45,6 +49,8 @@ def daily_pokemon_data_dag():
         save_pokemons_data_as_json(pokemons),
         Label("Cleanup Every XCOM"),
         cleanup_xcoms("{{dag.dag_id}}"),
+        Label("Verify Data Quality"),
+        data_quality(),
     )
 
 
